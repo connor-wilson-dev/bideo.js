@@ -124,18 +124,23 @@
       if ('object-fit' in document.body.style) return;
 
       // Video's intrinsic dimensions
-      var w = this.videoEl.videoWidth
+      
+      let video = {
+        w: this.videoEl.videoWidth,
+        h: this.videoEl.Videoheight
+      }
+      /*var w = this.videoEl.videoWidth
         , h = this.videoEl.videoHeight;
-
+*/
       // Intrinsic ratio
       // Will be more than 1 if W > H and less if H > W
-      var videoRatio = (w / h).toFixed(2);
-
+      let ratio = (w, h) => (w / h).toFixed(2);
+      
       // Get the container DOM element and its styles
       //
       // Also calculate the min dimensions required (this will be
       // the container dimentions)
-      var container = this.opt.container
+      let container = this.opt.container
         , containerStyles = global.getComputedStyle(container)
         , minW = parseInt( containerStyles.getPropertyValue('width') )
         , minH = parseInt( containerStyles.getPropertyValue('height') );
@@ -169,21 +174,20 @@
       // scale 500 to 700 and then calculate what should be the
       // right width. If we scale 1000 to 1200 then the height
       // will become 600 proportionately.
-      var widthRatio = minW / w;
-      var heightRatio = minH / h;
+      let widthRatio = ratio(minW / video.w), heightRatio = ratio(minH / video.h);
 
       // Whichever ratio is more, the scaling
       // has to be done over that dimension
       if (widthRatio > heightRatio) {
-        var new_width = minW;
-        var new_height = Math.ceil( new_width / videoRatio );
+        var new_width = `${minW}px`;
+        var new_height = Math.ceil( new_width / ratio(video.w / video.h) );
       }
       else {
         var new_height = minH;
-        var new_width = Math.ceil( new_height * videoRatio );
+        var new_width = `${Math.ceil( new_height * ratio(video.w / video.h) )}px`;
       }
 
-      this.videoEl.style.width = new_width + 'px';
+      this.videoEl.style.width = new_width;
       this.videoEl.style.height = new_height + 'px';
     };
 
