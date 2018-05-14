@@ -1,3 +1,6 @@
+This is a version of Bideo.js that I forked for my own personal use. I updated it, and also added a dependency on jQuery and loDash. Overall the goal was to make it more readable more object oriented.
+--------
+
 HTML5 Background Video
 ======================
 
